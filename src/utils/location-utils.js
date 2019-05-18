@@ -1,6 +1,5 @@
 import { post } from 'axios'
 import Notify from 'handy-notification'
-import { GOOGLE_GEOLOCATION_KEY } from '../../env'
 
 /**
  * Geolocation setup
@@ -39,7 +38,7 @@ export const getAddress = async pos => {
     {
       data: { results },
     } = await post(
-      `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${GOOGLE_GEOLOCATION_KEY}`
+      `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=GoogleKey`
     ),
     loc = results[0].formatted_address
   return loc

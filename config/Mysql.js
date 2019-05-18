@@ -6,10 +6,10 @@ const mysql = require('mysql'),
 
 // CREATES A DB CONNECTION
 const db = mysql.createConnection({
-  host: MYSQL_HOST,
-  user: MYSQL_USER,
-  password: MYSQL_PASSWORD,
-  database: MYSQL_DATABASE,
+  host: 'localhost',
+  user: 'user',
+  password: 'password',
+  database: 'wiki',
   charset: 'utf8mb4',
 })
 

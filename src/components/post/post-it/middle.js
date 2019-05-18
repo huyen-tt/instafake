@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import { connect } from 'react-redux'
 import FileInput from '../../others/input/file'
 import TextArea from '../../others/input/textArea'
@@ -43,7 +43,16 @@ const PostItMiddle = ({ postIt, session, dispatch }) => {
           </div>
         </div>
       ) : (
-        // If not show button to select
+        <Fragment>
+        <div className="i_p_ta">
+            <TextArea
+              placeholder={`What's new with you, @${username}?`}
+              value={desc}
+              valueChange={valueChange}
+              className="t_p_ta"
+            />
+          </div>
+        {/* // If not show button to select */}
         <form
           className="post_img_form"
           method="post"
@@ -52,10 +61,12 @@ const PostItMiddle = ({ postIt, session, dispatch }) => {
           <FileInput
             value={fileInput}
             fileChange={fileChange}
-            label="Choose an image"
+            label="Choose an image/video"
             labelClass="pri_btn"
+            accept="image/*,video/mp4,video/x-m4v,video/*"
           />
         </form>
+        </Fragment>
       )}
     </div>
   )

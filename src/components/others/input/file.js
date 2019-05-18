@@ -7,7 +7,6 @@ const FileInput = ({ label, value, fileChange, labelClass, ...props }) => {
       <input
         type="file"
         id="file_input"
-        accept="image/*"
         value={value}
         onChange={fileChange}
         {...props}

@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import ToTags from '../../../hashtag/toTags/toTags'
 import ImageTheatre from '../../../others/imageTheatre/imageTheatre'
 import PropTypes from 'prop-types'
@@ -38,12 +38,13 @@ export default class PostImage extends Component {
                 <ToTags str={`${description}`} />
               </p>
             </div>
-
+            {imgSrc ? (
             <img
               src={`/posts/${imgSrc}`}
               className={classNames('p_img', filter)}
               onClick={() => this._toggle('showImage')}
             />
+            ) : (<Fragment></Fragment>)}
 
             <PostTags post_id={post_id} tags_count={tags_count} />
           </div>

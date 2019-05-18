@@ -1,5 +1,5 @@
 // ALL POST-RELATED ROUTES ARE HANDLED BY THIS FILE
-
+var fs = require('fs');
 const app = require('express').Router(),
   db = require('../../../config/db'),
   Post = require('../../../config/Post'),
@@ -13,9 +13,10 @@ const app = require('express').Router(),
 // POST [REQ = DESC, FILTER, LOCATION, TYPE, GROUP, IMAGE(FILE) ]
 app.post('/post-it', upload.single('image'), async (req, res) => {
   try {
+    if(req.file){
     let { id } = req.session,
       { desc, filter, location, type, group } = req.body,
-      filename = `instagram_${new Date().getTime()}.jpg`,
+      filename = `instagram_${new Date().getTime()}_${req.file.originalname}`,
       obj = {
         srcFile: req.file.path,
         destFile: `${root}/dist/posts/${filename}`,
@@ -27,12 +28,20 @@ app.post('/post-it', upload.single('image'), async (req, res) => {
         filter,
         location,
         type,
-        group_id: group,
+        group_id: 0,
         post_time: new Date().getTime(),
       }
 
-    await ProcessImage(obj)
-    DeleteAllOfFolder(`${root}/dist/temp/`)
+    fs.rename(obj.srcFile, obj.destFile, async function (err) {
+        if (err) {
+            if (err.code === 'EXDEV') {
+                copy();
+            } else {
+                callback(err);
+            }
+            return;
+        }
+        DeleteAllOfFolder(`${root}/dist/temp/`)
 
     let { insertId } = await db.query('INSERT INTO posts SET ?', insert),
       firstname = await User.getWhat('firstname', id),
@@ -49,6 +58,36 @@ app.post('/post-it', upload.single('image'), async (req, res) => {
       surname,
       filename,
     })
+    });
+    } else{
+      let { id } = req.session,
+      { desc, filter, location, type, group } = req.body,
+      insert = {
+        user: id,
+        description: desc,
+        imgSrc: '',
+        filter,
+        location,
+        type,
+        group_id: 0,
+        post_time: new Date().getTime(),
+      }
+      let { insertId } = await db.query('INSERT INTO posts SET ?', insert),
+      firstname = await User.getWhat('firstname', id),
+      surname = await User.getWhat('surname', id)
+
+    await db.toHashtag(desc, id, insertId)
+    await User.mentionUsers(desc, id, insertId, 'post')
+
+    res.json({
+      success: true,
+      mssg: 'Posted!!',
+      post_id: insertId,
+      firstname,
+      surname,
+      filename: '',
+    })
+    }
   } catch (error) {
     db.catchError(error, res)
   }

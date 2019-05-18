@@ -37,7 +37,8 @@ export default class PostIt extends Component {
 
         <div className="post" style={{ left: fileChanged ? '41%' : '50%' }}>
           <FadeIn duration="300ms">
-            {fileChanged && <Filters />}
+            {/* {fileChanged && <Filters />} */}
+            {fileChanged}
 
             <PostItHeader />
             <Middle />

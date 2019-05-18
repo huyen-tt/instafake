@@ -49,7 +49,7 @@ app.use(express.static(join(__dirname, '/dist')))
 app.use(
   session({
     cookieName: 'session',
-    secret: SESSION_SECRET_LETTER,
+    secret: 'secret',
     duration: 24 * 60 * 60 * 1000,
     activeDuration: 5 * 60 * 1000,
   })
@@ -63,4 +63,4 @@ app.use(variables)
 AppRoutes(app)
 
 // Listening to PORT
-app.listen(PORT, () => rainbow('App running..'))
+app.listen(4200, () => rainbow('App running..'))
