@@ -206,7 +206,10 @@ app.post('/change-admin', async (req, res) => {
     let { user, group } = req.body
     let username = await User.getWhat('username', user)
 
-    await db.query('UPDATE `groups` SET admin=? WHERE group_id=?', [user, group])
+    await db.query('UPDATE `groups` SET admin=? WHERE group_id=?', [
+      user,
+      group,
+    ])
     res.json({
       success: true,
       mssg: `${username} is now admin of this group!!`,
