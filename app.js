@@ -63,4 +63,4 @@ app.use(variables)
 AppRoutes(app)
 
 // Listening to PORT
-app.listen(4200, () => rainbow('App running..'))
+app.listen(PORT, () => rainbow('App running..'))

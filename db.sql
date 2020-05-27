@@ -7,6 +7,10 @@
 -- Server version: 10.1.19-MariaDB
 -- PHP Version: 5.6.28
 
+DROP DATABASE IF EXISTS `instafake`;
+CREATE DATABASE `instafake`; 
+USE `instafake`;
+
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
@@ -74,7 +78,7 @@ CREATE TABLE `comments` (
   `comment_id` int(11) NOT NULL,
   `type` enum('text','image','sticker') COLLATE utf8mb4_bin NOT NULL,
   `text` mediumtext COLLATE utf8mb4_bin NOT NULL,
-  `commentSrc` mediumtext COLLATE utf8mb4_bin NOT NULL,
+  `commentSrc` mediumtext COLLATE utf8mb4_bin NOT NULL default '',
   `comment_by` int(11) NOT NULL,
   `post_id` int(11) NOT NULL,
   `comment_time` varchar(100) COLLATE utf8mb4_bin NOT NULL
